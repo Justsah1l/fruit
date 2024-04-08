@@ -4,26 +4,19 @@ import 'package:provider/provider.dart';
 
 import '../../models/productmod.dart';
 
-class ProductCard extends StatefulWidget {
+class Favprodcard extends StatefulWidget {
   final Product product;
-  const ProductCard({
+  const Favprodcard({
     Key? key,
     required this.product,
   }) : super(key: key);
 
   @override
-  State<ProductCard> createState() => _ProductCardState();
+  State<Favprodcard> createState() => _FavprodcardState();
 }
 
-class _ProductCardState extends State<ProductCard> {
+class _FavprodcardState extends State<Favprodcard> {
   bool _isFavorite = false;
-  @override
-  void initState() {
-    // TODO: implement initState
-    final shop = context.read<Cartmodel>();
-    print(shop.favcartitems);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,23 +41,6 @@ class _ProductCardState extends State<ProductCard> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Padding(
-                  padding: const EdgeInsets.only(right: 3.0),
-                  child: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _isFavorite = true;
-                        });
-                        final shop = context.read<Cartmodel>();
-
-                        shop.addtofav(widget.product);
-                      },
-                      icon: _isFavorite
-                          ? Icon(
-                              Icons.favorite,
-                              color: Colors.red,
-                            )
-                          : Icon(Icons.favorite_border_outlined))),
               SizedBox(
                 width: 30,
               ),
@@ -73,9 +49,12 @@ class _ProductCardState extends State<ProductCard> {
                   child: IconButton(
                       onPressed: () {
                         final shop = context.read<Cartmodel>();
-                        shop.addtocart(widget.product);
+                        shop.removefromfav(widget.product);
                       },
-                      icon: Icon(Icons.add))),
+                      icon: Icon(
+                        Icons.favorite,
+                        color: Colors.red,
+                      ))),
             ],
           ),
           Row(
@@ -107,12 +86,26 @@ class _ProductCardState extends State<ProductCard> {
                     fontSize: 20,
                   ),
                 ),
-                Text(
-                  '\u{20B9} ${widget.product.price}',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '\u{20B9} ${widget.product.price}',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Spacer(),
+                    IconButton(
+                        onPressed: () {
+                          final shop = context.read<Cartmodel>();
+
+                          shop.addtofav(widget.product);
+                        },
+                        icon: Icon(Icons.shopping_bag)),
+                  ],
                 ),
               ],
             ),

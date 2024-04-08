@@ -6,9 +6,20 @@ class Cartmodel extends ChangeNotifier {
   List<Product> _cartitems = [];
   List<Product> get cartitems => _cartitems;
 
+  List<Product> _favcartitems = [];
+
+  List<Product> get favcartitems => _favcartitems;
+
   void addtocart(Product product) {
     _cartitems.add(product);
     notifyListeners();
+  }
+
+  void addtofav(Product product) {
+    if (!_favcartitems.contains(product)) {
+      _favcartitems.add(product);
+      notifyListeners();
+    }
   }
 
   bool isempty() {
@@ -19,8 +30,18 @@ class Cartmodel extends ChangeNotifier {
     }
   }
 
+  int howmany() {
+    return _cartitems.length;
+    notifyListeners();
+  }
+
   void removefromcart(Product product) {
     _cartitems.remove(product);
+    notifyListeners();
+  }
+
+  void removefromfav(Product product) {
+    _favcartitems.remove(product);
     notifyListeners();
   }
 
