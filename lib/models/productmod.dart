@@ -28,4 +28,14 @@ class Product {
       'category': category,
     };
   }
+
+  /////
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is Product && other.productName == productName;
+  }
+
+  @override
+  int get hashcode => productName.hashCode.toInt();
 }

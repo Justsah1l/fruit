@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fruit/components/custombutton.dart';
+import 'package:fruit/components/customtextfield.dart';
 import 'package:fruit/models/cartmodel.dart';
 import 'package:fruit/widgets/emptyshopping.dart';
+import 'package:fruit/widgets/paymentstart.dart';
 import 'package:provider/provider.dart';
 
 class Cartpager extends StatelessWidget {
@@ -9,19 +12,300 @@ class Cartpager extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController promo = TextEditingController();
     final shop = context.read<Cartmodel>();
+    void p() {
+      print(shop.howmany);
+    }
+
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(
-            "Cart",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ),
         body: shop.isempty()
-            ? Emptyshopping()
-            : Consumer<Cartmodel>(
+            ? Emptyshopping(
+                what: "cart",
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 17.0, vertical: 10),
+                    child: Text(
+                      '${shop.howmany()} items',
+                      style: TextStyle(
+                          color: const Color.fromARGB(255, 172, 172, 172),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17),
+                    ),
+                  ),
+                  Expanded(
+                      child: ListView.builder(
+                    itemCount: shop.cartitems.length,
+                    itemBuilder: (context, index) {
+                      return Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 17.0, vertical: 10),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 183, 231, 127),
+                                borderRadius: BorderRadius.circular(12)),
+                            height: 110,
+                            width: double.infinity,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 23.0, vertical: 19),
+                                  child: Container(
+                                    height: 70,
+                                    width: 80,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(2.0),
+                                      child: Image.network(
+                                          fit: BoxFit.contain,
+                                          shop.cartitems[index].imageUrl),
+                                    ),
+                                  ),
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Text(
+                                      shop.cartitems[index].productName,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 20),
+                                    ),
+                                    Text(
+                                      "Fruit",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          IconButton(
+                                              onPressed: () {},
+                                              icon: Icon(
+                                                Icons.add,
+                                                color: Colors.black,
+                                              )),
+                                          Text(
+                                            "1",
+                                          ),
+                                          IconButton(
+                                              onPressed: () {},
+                                              icon: Icon(
+                                                Icons.remove,
+                                                color: Colors.black,
+                                              )),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                Spacer(),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    IconButton(
+                                        onPressed: () {
+                                          shop.removefromcart(
+                                              shop.cartitems[index]);
+                                        },
+                                        icon: Icon(
+                                          Icons.close,
+                                          color: Colors.black,
+                                        )),
+                                    Spacer(),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 12.0, vertical: 7),
+                                      child: Text(
+                                        '\u{20B9} ${shop.cartitems[index].price}',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  )),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 17.0,
+                    ),
+                    child: Text(
+                      "Promo code",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 17.0,
+                    ),
+                    child: SizedBox(
+                      height: 55,
+                      width: 390,
+                      child: TextField(
+                        controller: promo,
+                        decoration: InputDecoration(
+                          hintStyle: TextStyle(fontSize: 15),
+                          contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                          suffixIcon: IconButton(
+                              onPressed: () {}, icon: Icon(Icons.check)),
+                          fillColor: const Color.fromARGB(255, 205, 217, 113),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(7),
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(7),
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                          filled: true,
+                          hintText: "Apply a promo code",
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 17.0,
+                    ),
+                    child: Text(
+                      "* If you have a promo code, copy it here.",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 10,
+                          color: const Color.fromARGB(255, 242, 65, 53)),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 17.0,
+                    ),
+                    child: Text(
+                      "Order summary",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 17.0,
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text("Subtotal"),
+                            Spacer(),
+                            Text(
+                              '\u{20B9} ${shop.calculatetotal()}',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        Row(
+                          children: [
+                            Text("Discount"),
+                            Spacer(),
+                            Text(
+                              '\u{20B9} 0',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        Row(
+                          children: [
+                            Text("Total"),
+                            Spacer(),
+                            Text(
+                              '\u{20B9} ${shop.calculatetotal()}',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 26,
+                  ),
+                  Center(
+                    child: SizedBox(
+                        height: 50,
+                        width: 340,
+                        child: Center(
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Paymentstart(),
+                                  ));
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 61, 89, 32),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Center(
+                                  child: Text(
+                                "Checkout",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17,
+                                ),
+                              )),
+                            ),
+                          ),
+                        )),
+                  )
+                ],
+              ));
+  }
+}
+
+/*Consumer<Cartmodel>(
                 builder: (context, value, child) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -163,6 +447,4 @@ class Cartpager extends StatelessWidget {
                     ],
                   );
                 },
-              ));
-  }
-}
+              ) */
