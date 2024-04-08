@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fruit/homepage.dart';
 import 'package:fruit/models/cartmodel.dart';
 import 'package:fruit/themes/themeprov.dart';
+import 'package:fruit/widgets/cards/paymentmethod.dart';
 import 'package:fruit/widgets/carousel.dart';
 import 'package:fruit/widgets/cartpage.dart';
 import 'package:fruit/widgets/emptyshopping.dart';
