@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fruit/models/cartmodel.dart';
 import 'package:fruit/themes/themeprov.dart';
 import 'package:fruit/widgets/address.dart';
+import 'package:fruit/widgets/mainhomepage.dart';
+import 'package:fruit/widgets/orderconfirm.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -28,6 +30,6 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: Provider.of<Themeprov>(context).themedata,
-        home: Addresspage());
+        home: Mainhome());
   }
 }
