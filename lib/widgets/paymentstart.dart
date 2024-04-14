@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fruit/components/custombutton.dart';
 import 'package:fruit/components/customtextfield.dart';
 import 'package:fruit/widgets/cards/paymentmethod.dart';
+import 'package:fruit/widgets/orderconfirm.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class Paymentstart extends StatefulWidget {
   const Paymentstart({super.key});
@@ -11,6 +14,52 @@ class Paymentstart extends StatefulWidget {
 }
 
 class _PaymentstartState extends State<Paymentstart> {
+  final _razorpay = Razorpay();
+  @override
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    print(
+        "-------------------------------------------------success-----------------------------------------------------------");
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Orderconfirm(),
+        ));
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    print(
+        "-------------------------------------------------falied-------------------------------------------------");
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    print(
+        "-------------------------------------------------external wallet-------------------------------------------------");
+  }
+
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  }
+
+  void openpay() {
+    var options = {
+      'key': 'rzp_test_61XG6CqADFDGCc',
+      'amount': 100,
+      'name': 'Acme Corp.',
+      'description': 'Fine T-Shirt',
+      'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'}
+    };
+    try {
+      _razorpay.open(options);
+    } catch (e) {
+      print(e);
+    }
+  }
+
   TextEditingController service = TextEditingController();
   TextEditingController address = TextEditingController();
   TextEditingController phone = TextEditingController();
@@ -165,34 +214,39 @@ class _PaymentstartState extends State<Paymentstart> {
                   SizedBox(
                     width: 15,
                   ),
-                  Container(
-                    height: 60,
-                    width: 196,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7),
-                      color: const Color.fromARGB(255, 61, 89, 32),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.payment,
-                            color: Colors.white,
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            "Pay Now",
-                            style: TextStyle(
-                                fontSize: 17,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
+                  GestureDetector(
+                    onTap: () {
+                      openpay();
+                    },
+                    child: Container(
+                      height: 60,
+                      width: 196,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(7),
+                        color: const Color.fromARGB(255, 61, 89, 32),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.payment,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              "Pay Now",
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
