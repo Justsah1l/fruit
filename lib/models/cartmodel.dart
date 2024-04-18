@@ -3,6 +3,7 @@ import 'package:fruit/models/productmod.dart';
 import 'package:pinput/pinput.dart';
 
 class Cartmodel extends ChangeNotifier {
+   
   List<Product> _cartitems = [];
   List<Product> get cartitems => _cartitems;
 

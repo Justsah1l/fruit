@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fruit/homepage.dart';
 import 'package:fruit/models/cartmodel.dart';
+import 'package:fruit/widgets/Orderhistory.dart';
 import 'package:fruit/widgets/cartpage.dart';
 import 'package:fruit/widgets/favpage.dart';
 import 'package:fruit/widgets/mainaccount.dart';
@@ -19,12 +20,14 @@ class _MainhomeState extends State<Mainhome> {
   final List<String> names = [
     "Homepage",
     "Favorites",
+    "History",
     "Cart",
     "Account",
   ];
   final List<Widget> _pages = [
     Homepage(),
     Favpage(),
+    OrderHistory(),
     Cartpager(),
     MyAccountPage()
   ];
@@ -33,25 +36,8 @@ class _MainhomeState extends State<Mainhome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Row(
-          children: [
-            SizedBox(
-              width: 16,
-            ),
-            GestureDetector(
-                onTap: () {},
-                child: Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: const Color.fromARGB(255, 205, 217, 113)),
-                    child: Image.asset("assets/Vector.png"))),
-          ],
-        ),
-
         title: Text(
-          names[index],
+          names[index] == "Homepage" ? "Hello name" : names[index],
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [
@@ -118,6 +104,9 @@ class _MainhomeState extends State<Mainhome> {
           ),
           GButton(
             icon: Icons.favorite,
+          ),
+          GButton(
+            icon: Icons.history_sharp,
           ),
           GButton(
             icon: Icons.shopping_bag,

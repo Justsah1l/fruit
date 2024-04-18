@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fruit/models/cartmodel.dart';
+import 'package:fruit/provider/idprovider.dart';
 import 'package:fruit/themes/themeprov.dart';
+import 'package:fruit/widgets/Orderhistory.dart';
 import 'package:fruit/widgets/address.dart';
 import 'package:fruit/widgets/mainhomepage.dart';
 import 'package:fruit/widgets/orderconfirm.dart';
+import 'package:fruit/widgets/searchpage.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -15,6 +18,9 @@ void main() {
       ChangeNotifierProvider(
         create: (context) => Cartmodel(),
       ),
+      ChangeNotifierProvider(
+        create: (context) => OrderProvider(),
+      )
     ],
     child: MyApp(),
   ));
