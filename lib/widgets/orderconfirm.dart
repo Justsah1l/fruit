@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fruit/components/custombutton.dart';
 import 'package:fruit/provider/idprovider.dart';
+import 'package:fruit/widgets/mainhomepage.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -85,8 +86,14 @@ class _OrderconfirmState extends State<Orderconfirm> {
               height: 50,
             ),
             Custombutton(
-                text: "Track Your Order",
-                onTap: () {},
+                text: "Back to Home Screen",
+                onTap: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Mainhome(),
+                      ));
+                },
                 color: const Color.fromARGB(255, 130, 205, 71),
                 textcolor: Colors.white)
           ],

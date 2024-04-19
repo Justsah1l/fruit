@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fruit/components/custombutton.dart';
 import 'package:fruit/components/customforuser.dart';
+import 'package:fruit/provider/idprovider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class Usersettings extends StatefulWidget {
   const Usersettings({super.key});
@@ -120,7 +122,20 @@ class _UsersettingsState extends State<Usersettings> {
               ),
               Custombutton(
                   text: "Confirm",
-                  onTap: () {},
+                  onTap: () {
+                    Provider.of<OrderProvider>(context, listen: false)
+                        .setdob(date.text);
+                    Provider.of<OrderProvider>(context, listen: false)
+                        .settele(tele.text);
+                    Provider.of<OrderProvider>(context, listen: false)
+                        .setaddress(ad1.text + ad2.text);
+                    Provider.of<OrderProvider>(context, listen: false)
+                        .setpostal(postal.text);
+                    Provider.of<OrderProvider>(context, listen: false)
+                        .setcity(city.text);
+                    Provider.of<OrderProvider>(context, listen: false)
+                        .setcountry(country.text);
+                  },
                   color: Color.fromARGB(255, 61, 89, 32),
                   textcolor: Colors.white),
               SizedBox(

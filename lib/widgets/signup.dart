@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fruit/components/custombutton.dart';
 import 'package:fruit/components/customtextfield.dart';
+import 'package:fruit/homepage.dart';
+import 'package:fruit/provider/idprovider.dart';
 import 'package:fruit/services/otpservice.dart';
+import 'package:fruit/widgets/mainhomepage.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 class Signup extends StatefulWidget {
   String phonenum;
@@ -122,8 +126,17 @@ class _SignupState extends State<Signup> {
               Custombutton(
                   text: 'Signup',
                   onTap: () {
+                    Provider.of<OrderProvider>(context, listen: false)
+                        .setname(name.text);
+                    Provider.of<OrderProvider>(context, listen: false)
+                        .setemail(email.text);
                     OtpService()
                         .signup(name.text, widget.phonenum, email.text, "user");
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Mainhome(),
+                        ));
                   },
                   color: Colors.lightGreen,
                   textcolor: Colors.white)

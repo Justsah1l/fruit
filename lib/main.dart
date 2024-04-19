@@ -6,7 +6,10 @@ import 'package:fruit/widgets/Orderhistory.dart';
 import 'package:fruit/widgets/address.dart';
 import 'package:fruit/widgets/mainhomepage.dart';
 import 'package:fruit/widgets/orderconfirm.dart';
+import 'package:fruit/widgets/otp.dart';
 import 'package:fruit/widgets/searchpage.dart';
+import 'package:fruit/widgets/signup.dart';
+import 'package:fruit/widgets/splashscreen/splashone.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -36,6 +39,6 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: Provider.of<Themeprov>(context).themedata,
-        home: Mainhome());
+        home: Signup(phonenum: "9284351959"));
   }
 }

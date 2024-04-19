@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fruit/provider/idprovider.dart';
 import 'package:fruit/widgets/Orderhistory.dart';
 import 'package:fruit/widgets/cartpage.dart';
 import 'package:fruit/widgets/favpage.dart';
@@ -9,6 +10,7 @@ import 'package:fruit/widgets/userinfo.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -53,12 +55,13 @@ class _MyAccountPageState extends State<MyAccountPage> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Aditya K',
+                      '${Provider.of<OrderProvider>(context, listen: false).name}',
                       style: GoogleFonts.getFont('Poppins',
                           fontSize: 23, fontWeight: FontWeight.w500),
                     ),
                   ),
-                  Text("aditya@gmail.com"),
+                  Text(
+                      "${Provider.of<OrderProvider>(context, listen: false).email}"),
                   SizedBox(
                     height: 40,
                   ),

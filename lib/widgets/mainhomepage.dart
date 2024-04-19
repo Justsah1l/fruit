@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fruit/homepage.dart';
 import 'package:fruit/models/cartmodel.dart';
+import 'package:fruit/provider/idprovider.dart';
 import 'package:fruit/widgets/Orderhistory.dart';
 import 'package:fruit/widgets/cartpage.dart';
 import 'package:fruit/widgets/favpage.dart';
@@ -37,7 +38,9 @@ class _MainhomeState extends State<Mainhome> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          names[index] == "Homepage" ? "Hello name" : names[index],
+          names[index] == "Homepage"
+              ? "Hello ${Provider.of<OrderProvider>(context, listen: false).name}"
+              : names[index],
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [

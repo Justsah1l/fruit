@@ -6,6 +6,7 @@ import 'package:fruit/components/custombutton.dart';
 import 'package:fruit/components/customtextfield.dart';
 import 'package:fruit/models/cartmodel.dart';
 import 'package:fruit/services/createorder.dart';
+import 'package:fruit/widgets/address.dart';
 import 'package:fruit/widgets/emptyshopping.dart';
 import 'package:fruit/widgets/paymentstart.dart';
 import 'package:provider/provider.dart';
@@ -351,7 +352,7 @@ class _CartpagerState extends State<Cartpager> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => Paymentstart(),
+                                    builder: (context) => Addresspage(),
                                   ));
                             },
                             child: Container(
