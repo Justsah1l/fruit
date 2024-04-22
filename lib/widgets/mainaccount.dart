@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fruit/widgets/userinfo.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
@@ -20,13 +21,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
     return SafeArea(
       child: Scaffold(
           backgroundColor: Colors.white,
-          appBar: AppBar(
-            title: Text(
-              "Account",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            centerTitle: true,
-          ),
           body: SingleChildScrollView(
             child: Center(
               child: Column(
@@ -85,7 +79,13 @@ class _MyAccountPageState extends State<MyAccountPage> {
                         BuildAccountTile(
                             title: "User Information",
                             icon: Icons.person_outline,
-                            callback: () {}),
+                            callback: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Usersettings(),
+                                  ));
+                            }),
                         BuildAccountTile(
                             title: "My Cart",
                             icon: Icons.shopping_cart_outlined,
@@ -101,6 +101,10 @@ class _MyAccountPageState extends State<MyAccountPage> {
                         BuildAccountTile(
                             title: "Help",
                             icon: Icons.help_outline,
+                            callback: () {}),
+                        BuildAccountTile(
+                            title: "Refer a Friend",
+                            icon: Icons.person_add_outlined,
                             callback: () {}),
                         BuildAccountTile(
                             title: "Logout",

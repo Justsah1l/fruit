@@ -33,7 +33,7 @@ class _HomepageState extends State<Homepage> {
     // Corrected return type for getdata method
     try {
       var res =
-          await Dio().get("http://192.168.1.43:4000/api/v1/getallproducts");
+          await Dio().get("http://192.168.1.9:4000/api/v1/getallproducts");
       if (res.statusCode == 200) {
         print(res.data);
         List<dynamic> productsData =

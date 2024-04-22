@@ -3,12 +3,60 @@ import 'package:flutter/material.dart';
 import 'package:fruit/components/custombutton.dart';
 import 'package:fruit/components/customtextfield.dart';
 import 'package:fruit/models/cartmodel.dart';
+import 'package:fruit/services/createorder.dart';
 import 'package:fruit/widgets/emptyshopping.dart';
 import 'package:fruit/widgets/paymentstart.dart';
 import 'package:provider/provider.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
-class Cartpager extends StatelessWidget {
+class Cartpager extends StatefulWidget {
   const Cartpager({super.key});
+
+  @override
+  State<Cartpager> createState() => _CartpagerState();
+}
+
+class _CartpagerState extends State<Cartpager> {
+  final _razorpay = Razorpay();
+  @override
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    print(
+        "-------------------------------------------------success-----------------------------------------------------------");
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    print(
+        "-------------------------------------------------falied-------------------------------------------------");
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    print(
+        "-------------------------------------------------external wallet-------------------------------------------------");
+  }
+
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  }
+
+  void openpay() {
+    var options = {
+      'key': 'rzp_test_61XG6CqADFDGCc',
+      'amount': 100,
+      'name': 'Acme Corp.',
+      'description': 'Fine T-Shirt',
+      'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'}
+    };
+    try {
+      _razorpay.open(options);
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +64,22 @@ class Cartpager extends StatelessWidget {
     final shop = context.read<Cartmodel>();
     void p() {
       print(shop.howmany);
+    }
+
+    void createorder() async {
+      OrderService orderService = OrderService();
+
+      // Example order data
+      Map<String, dynamic> orderData = {
+        'phoneNumber': '1234567890',
+        'products': shop.cartitems,
+        'totalPrice': 35,
+        'status': 'pending',
+      };
+
+      // Creating order
+      final result = await orderService.createOrder(orderData);
+      print(result);
     }
 
     return Scaffold(
@@ -276,6 +340,8 @@ class Cartpager extends StatelessWidget {
                         child: Center(
                           child: GestureDetector(
                             onTap: () {
+                              createorder();
+
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(

@@ -1,19 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:fruit/homepage.dart';
 import 'package:fruit/models/cartmodel.dart';
+import 'package:fruit/screens/admin_screen.dart';
 import 'package:fruit/themes/themeprov.dart';
-import 'package:fruit/widgets/cards/paymentmethod.dart';
-import 'package:fruit/widgets/carousel.dart';
-import 'package:fruit/widgets/cartpage.dart';
-import 'package:fruit/widgets/emptyshopping.dart';
-import 'package:fruit/widgets/getstarted.dart';
-import 'package:fruit/widgets/login.dart';
-import 'package:fruit/widgets/mainaccount.dart';
+import 'package:fruit/widgets/address.dart';
 import 'package:fruit/widgets/mainhomepage.dart';
-import 'package:fruit/widgets/otp.dart';
-import 'package:fruit/widgets/signup.dart';
-import 'package:fruit/widgets/splashscreen/splashone.dart';
-import 'package:fruit/widgets/splashscreen/splashtwo.dart';
+import 'package:fruit/widgets/orderconfirm.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -40,6 +31,6 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: Provider.of<Themeprov>(context).themedata,
-        home: Mainhome());
+        home: AdminScreen());
   }
 }

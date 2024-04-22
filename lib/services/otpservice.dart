@@ -3,12 +3,12 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 
 class OtpService {
-  static const String apiUrl = 'http://192.168.1.6:4000';
+  static const String apiUrl = 'http://192.168.1.9:4000';
 
   Future<bool> sendOtp(String phoneNumber) async {
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.1.6:4000/api/v1/sendotp'),
+        Uri.parse('http://192.168.1.9:4000/api/v1/sendotp'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'phoneNumber': phoneNumber}),
       );
@@ -35,7 +35,7 @@ class OtpService {
 
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.1.6:4000/api/v1/verifyotp'),
+        Uri.parse('http://192.168.1.9:4000/api/v1/verifyotp'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'phoneNumber': phoneNumber, 'otp': otp}),
       );
@@ -68,7 +68,7 @@ class OtpService {
 
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.1.6:4000/api/v1/signup'),
+        Uri.parse('http://192.168.1.9:4000/api/v1/signup'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'name': name,
