@@ -66,7 +66,7 @@ class BuildFeaturedProducts extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 15.0, top: 8),
               child: Text(
-                'Fruits',
+                'Vegetables',
                 style: GoogleFonts.getFont(
                   'Poppins',
                   color: Colors.black,
