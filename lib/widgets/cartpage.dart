@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fruit/components/custombutton.dart';
 import 'package:fruit/components/customtextfield.dart';
 import 'package:fruit/models/cartmodel.dart';
+import 'package:fruit/provider/phoneprov.dart';
 import 'package:fruit/services/createorder.dart';
 import 'package:fruit/widgets/address.dart';
 import 'package:fruit/widgets/emptyshopping.dart';
@@ -75,9 +76,10 @@ class _CartpagerState extends State<Cartpager> {
 
       // Example order data
       Map<String, dynamic> orderData = {
-        'phoneNumber': '1234567890',
+        'phoneNumber':
+            Provider.of<NumberProvider>(context, listen: false).phoneNumber,
         'products': shop.cartitems,
-        'totalPrice': 35,
+        'totalPrice': shop.calculatetotal(),
         'status': 'pending',
       };
 
