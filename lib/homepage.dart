@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:fruit/models/productmod.dart';
 import 'package:fruit/provider/idprovider.dart';
 // Add import statement for dart:convert
@@ -23,14 +26,18 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   List<Product> productList = [];
+  List<Product> veglist = [];
+  List<Product> fruitlist = [];
 
   Future<void> getdata() async {
+    print(
+        "-----------------------------------------------------getdata started ---------------------------------------------");
     // Corrected return type for getdata method
     try {
       var res =
           await Dio().get("http://192.168.1.9:4000/api/v1/getallproducts");
       if (res.statusCode == 200) {
-        print(res.data);
+        print(res.data['data']);
         List<dynamic> productsData =
             res.data['data']; // Accessing 'data' property from API response
         setState(() {
@@ -38,12 +45,24 @@ class _HomepageState extends State<Homepage> {
               .map((productJson) => Product.fromJson(productJson))
               .toList();
         });
+
         print(productList[0].imageUrl);
+        assigndata();
       } else {
         print("Failed to load data: ${res.statusCode}");
       }
     } catch (e) {
       print("Error fetching data: $e");
+    }
+  }
+
+  assigndata() {
+    for (var element in productList) {
+      if (element.category == "Fruits") {
+        fruitlist.add(element);
+      } else {
+        veglist.add(element);
+      }
     }
   }
 
@@ -125,18 +144,19 @@ class _HomepageState extends State<Homepage> {
             SizedBox(
               height: 10,
             ),
-            // Pineapple(),
             BuildCarouselSlider(),
             SizedBox(
               height: 15,
             ),
             BuildDiscount(productList: productList),
             BuildCategories(),
-            BuildFeaturedProducts(productList: productList),
+            BuildFeaturedProducts(
+              fru: fruitlist,
+              veg: veglist,
+            ),
             SizedBox(
               height: 15,
             ),
-            Text(Provider.of<OrderProvider>(context, listen: false).orderId)
           ],
         ),
       ),

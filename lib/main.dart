@@ -39,6 +39,6 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: Provider.of<Themeprov>(context).themedata,
-        home: Signup(phonenum: "9284351959"));
+        home: Mainhome());
   }
 }
