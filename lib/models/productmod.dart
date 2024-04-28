@@ -5,9 +5,10 @@ class Product {
   String desc;
   String unit;
   String category;
+  String subcat;
 
   Product(this.productName, this.imageUrl, this.price, this.desc, this.unit,
-      this.category);
+      this.category, this.subcat);
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
       json['name'] as String? ?? '', // productName
@@ -16,6 +17,7 @@ class Product {
       json['description'] as String? ?? '', // desc
       json['quantity'] as String? ?? '', // unit
       json['category'] as String? ?? '', // category
+      json['subcategory'] as String? ?? '',
     );
   }
   Map<String, dynamic> toJson() {

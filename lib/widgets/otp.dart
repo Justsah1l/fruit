@@ -252,7 +252,7 @@ class _OtpscreenState extends State<Otpscreen> {
                                         'Number passed to Home Screen: ${phoneNumber}');
 
                                     //   onUserLogin();
-                                    Navigator.push(
+                                    Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => Mainhome(),

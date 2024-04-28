@@ -41,17 +41,17 @@ class _BuildCategoriesState extends State<BuildCategories> {
                 ),
               ],
             ),
-            Container(
+            /* Container(
               height: 70,
               child: ListView.builder(
                 itemCount: fruitCategories.length,
                 itemBuilder: (context, index) {
                   // Define lists for icons and colors
                   List<IconData> icons = [
-                    Icons.local_florist, // Fresh Fruits
+                    Icons.food_bank, // Fresh Fruits
                     Icons.eco, // Organic Fruits
                     Icons.wb_sunny, // Seasonal Fruits
-                    Icons.food_bank, // Dried Fruits
+                    Icons.wb_sunny, // Dried Fruits
                     Icons.card_giftcard, // Gift Baskets
                     Icons.shopping_cart, // Bulk Purchases
                     // Add more icons as needed
@@ -85,7 +85,7 @@ class _BuildCategoriesState extends State<BuildCategories> {
                 },
                 scrollDirection: Axis.horizontal,
               ),
-            ),
+            ),*/
           ],
         ),
       ),

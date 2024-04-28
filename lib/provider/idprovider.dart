@@ -29,7 +29,9 @@ class OrderProvider extends ChangeNotifier {
   late String _country = '';
 
   String get country => _country;
+  late String _ph = '';
 
+  String get ph => _ph;
   id(String or) {
     _orderId = or;
     notifyListeners();
@@ -37,6 +39,11 @@ class OrderProvider extends ChangeNotifier {
 
   setname(String or) {
     _name = or;
+    notifyListeners();
+  }
+
+  setph(String or) {
+    _ph = or;
     notifyListeners();
   }
 

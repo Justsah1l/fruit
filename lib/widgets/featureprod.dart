@@ -6,10 +6,12 @@ import '../models/productmod.dart';
 class BuildFeaturedProducts extends StatelessWidget {
   const BuildFeaturedProducts({
     super.key,
-    required this.productList,
+    required this.fru,
+    required this.veg,
   });
 
-  final List<Product> productList;
+  final List<Product> fru;
+  final List<Product> veg;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +62,21 @@ class BuildFeaturedProducts extends StatelessWidget {
                 ),
               ),
             ),
-            BuildListProducts(productList: productList),
+            BuildListProducts(productList: fru),
+            Padding(
+              padding: const EdgeInsets.only(left: 15.0, top: 8),
+              child: Text(
+                'Vegetables',
+                style: GoogleFonts.getFont(
+                  'Poppins',
+                  color: Colors.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            BuildListProducts(productList: veg),
+
             //Veges Header
           ],
         ),
