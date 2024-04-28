@@ -2,12 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fruit/components/custombutton.dart';
 import 'package:fruit/components/customtextfield.dart';
+import 'package:fruit/provider/idprovider.dart';
 import 'package:fruit/widgets/cards/paymentmethod.dart';
 import 'package:fruit/widgets/orderconfirm.dart';
+import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class Paymentstart extends StatefulWidget {
-  const Paymentstart({super.key});
+  Paymentstart({super.key});
 
   @override
   State<Paymentstart> createState() => _PaymentstartState();
@@ -15,10 +19,46 @@ class Paymentstart extends StatefulWidget {
 
 class _PaymentstartState extends State<Paymentstart> {
   final _razorpay = Razorpay();
+
+  Future<Map<String, dynamic>> confirmOrder() async {
+    String orderId = Provider.of<OrderProvider>(context, listen: false).orderId;
+    try {
+      final response = await http.post(
+        Uri.parse('http://192.168.1.9:4000/api/v1/confirmOrder'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode({'id': orderId}),
+      );
+
+      if (response.statusCode == 200) {
+        return {
+          'success': true,
+          'message': 'Order confirmed successfully!',
+        };
+      } else {
+        return {
+          'success': false,
+          'message':
+              'Failed to confirm order. Server responded with ${response.statusCode}',
+        };
+      }
+    } catch (error) {
+      print('Error confirming order: $error');
+      return {
+        'success': false,
+        'message': 'Internal Server Error',
+      };
+    }
+  }
+
   @override
-  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
     print(
         "-------------------------------------------------success-----------------------------------------------------------");
+    print(
+        '----------------------------------------------------------${Provider.of<OrderProvider>(context, listen: false).orderId}----------------------------------------------------------');
+    await confirmOrder();
     Navigator.push(
         context,
         MaterialPageRoute(

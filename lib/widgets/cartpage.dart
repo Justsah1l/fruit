@@ -1,13 +1,17 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fruit/components/custombutton.dart';
 import 'package:fruit/components/customtextfield.dart';
 import 'package:fruit/models/cartmodel.dart';
 import 'package:fruit/services/createorder.dart';
+import 'package:fruit/widgets/address.dart';
 import 'package:fruit/widgets/emptyshopping.dart';
 import 'package:fruit/widgets/paymentstart.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import './../provider/idprovider.dart';
 
 class Cartpager extends StatefulWidget {
   const Cartpager({super.key});
@@ -19,7 +23,7 @@ class Cartpager extends StatefulWidget {
 class _CartpagerState extends State<Cartpager> {
   final _razorpay = Razorpay();
   @override
-  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
     print(
         "-------------------------------------------------success-----------------------------------------------------------");
   }
@@ -66,7 +70,7 @@ class _CartpagerState extends State<Cartpager> {
       print(shop.howmany);
     }
 
-    void createorder() async {
+    createorder() async {
       OrderService orderService = OrderService();
 
       // Example order data
@@ -78,8 +82,12 @@ class _CartpagerState extends State<Cartpager> {
       };
 
       // Creating order
+
       final result = await orderService.createOrder(orderData);
-      print(result);
+      String id = result['data']['id'];
+      print(
+          "ID ----------------------------------------------------------------------------  ${id}");
+      Provider.of<OrderProvider>(context, listen: false).id(id);
     }
 
     return Scaffold(
@@ -339,13 +347,12 @@ class _CartpagerState extends State<Cartpager> {
                         width: 340,
                         child: Center(
                           child: GestureDetector(
-                            onTap: () {
+                            onTap: () async {
                               createorder();
-
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => Paymentstart(),
+                                    builder: (context) => Addresspage(),
                                   ));
                             },
                             child: Container(
