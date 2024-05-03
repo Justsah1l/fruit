@@ -8,7 +8,7 @@ Future<Map<String, dynamic>> createOrderApi({
   String? status,
 }) async {
   try {
-    final String apiUrl = 'http://127.0.0.1:4000/createOrder';
+    final String apiUrl = 'https://deployment01.onrender.com/createOrder';
 
     Map<String, dynamic> requestBody = {
       'phoneNumber': phoneNumber,
@@ -45,25 +45,4 @@ Future<Map<String, dynamic>> createOrderApi({
       'message': 'Internal Server Error',
     };
   }
-}
-
-void main() async {
-  Map<String, dynamic> result = await createOrderApi(
-    phoneNumber: '1234567890',
-    products: [
-      {
-        'productId': 'product1',
-        'quantity': 2,
-        'price': 10.99,
-      },
-      {
-        'productId': 'product2',
-        'quantity': 1,
-        'price': 5.99,
-      },
-    ],
-    totalPrice: 27.97,
-    status: 'pending',
-  );
-  print(result);
 }

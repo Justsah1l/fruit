@@ -35,6 +35,7 @@ class AdminScreen extends StatefulWidget {
 
 class _AdminScreenState extends State<AdminScreen> {
   bool isSilentNotification = false;
+  List<Map<String, dynamic>> orders = [];
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
@@ -52,18 +53,17 @@ class _AdminScreenState extends State<AdminScreen> {
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
-  // Future<void> fetchOrders() async {
-  //   await displayNotification('New Order', 'A new order has been placed!');
-  // }
   Future<void> fetchOrders() async {
     try {
       final response = await http
-          .get(Uri.parse('http://192.168.1.55:4000/api/v1/getallorders'));
+          .get(Uri.parse('http://192.168.1.37:4000/api/v1/getallorders'));
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = json.decode(response.body);
         if (responseData['success'] == true) {
-          final List<dynamic> orders = responseData['data'];
-          print(orders);
+          print(responseData['data']);
+          setState(() {
+            orders = List<Map<String, dynamic>>.from(responseData['data']);
+          });
         } else {
           print('Failed to fetch orders: ${responseData['message']}');
         }
@@ -84,14 +84,15 @@ class _AdminScreenState extends State<AdminScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFF0A192F),
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
           'Welcome Admin',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Colors.white),
         actions: [
           IconButton(
             icon: Icon(
@@ -114,7 +115,7 @@ class _AdminScreenState extends State<AdminScreen> {
               child: Text(
                 'Admin Drawer',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.black87,
                   fontSize: 24,
                 ),
               ),
@@ -134,34 +135,130 @@ class _AdminScreenState extends State<AdminScreen> {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              width: 329,
-              height: 110,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-                color: Color.fromARGB(255, 205, 217, 113),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: 150,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  color: Color(0xFF172a46),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Want to Update the prices',
+                      style: TextStyle(
+                          fontFamily: "poppins",
+                          fontSize: 14,
+                          color: Colors.white),
+                    ),
+                    ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.blue),
+                        overlayColor: MaterialStateProperty.all(
+                            Colors.transparent), // Background color
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            Colors.white), // Text color
+                        elevation: MaterialStateProperty.all<double>(8),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(16), // Border radius
+                          ),
+                        ),
+                      ),
+                      onPressed: () {},
+                      child: Text('Update prices'),
+                    )
+                  ],
+                ),
               ),
-              child: Column(
-                children: [
-                  Text('Want to Update the prices'),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: Text('Update prices'),
-                  )
-                ],
+              SizedBox(height: 20),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: 150,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  color: Color(0xFF172a46),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Check The Orders',
+                      style: TextStyle(
+                          fontFamily: "poppins",
+                          fontSize: 14,
+                          color: Colors.white),
+                    ),
+                    ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.blue),
+                        overlayColor: MaterialStateProperty.all(
+                            Colors.transparent), // Background color
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            Colors.white), // Text color
+                        elevation: MaterialStateProperty.all<double>(8),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(16), // Border radius
+                          ),
+                        ),
+                      ),
+                      onPressed: fetchOrders,
+                      child: Text('Fetch All Orders'),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: fetchOrders,
-              child: Text('Fetch All Orders'),
-            ),
-          ],
+              SizedBox(
+                height: 8,
+              ),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: orders.length,
+                itemBuilder: (context, index) {
+                  final order = orders[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                        bottom: 8.0), // Adjust the spacing as needed
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 130,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        color: Color(0xFF172a46),
+                      ),
+                      child: ListTile(
+                        title: Text(order['phoneNumber'] ?? 'Unknown'),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                                'Product ID: ${order['productId'] ?? 'Unknown'}'),
+                            Text('Quantity: ${order['quantity'] ?? 'Unknown'}'),
+                            Text('Address: ${order['address'] ?? 'Unknown'}'),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

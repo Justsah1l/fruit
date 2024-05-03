@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-Future<void> createOrder(Map<String, dynamic> orderData) async {
-  final url = Uri.parse('http://192.168.1.55:4000/api/v1/getallorders');
+Future<void> getOrder(Map<String, dynamic> orderData) async {
+  final url =
+      Uri.parse('https://deployment01.onrender.com/api/v1/getallorders');
   final headers = {'Content-Type': 'application/json'};
   final body = json.encode(orderData);
 

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 void main() async {
-  final apiUrl = 'http://192.168.1.9:4000/api/v1/signup';
+  final apiUrl = 'https://deployment01.onrender.com/api/v1/signup';
 
   final userProfile = {
     'uid': '123',

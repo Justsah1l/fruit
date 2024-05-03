@@ -6,7 +6,7 @@ class OrderService {
       Map<String, dynamic> orderData) async {
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.1.9:4000/api/v1/createOrder'),
+        Uri.parse('https://deployment01.onrender.com/api/v1/createOrder'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

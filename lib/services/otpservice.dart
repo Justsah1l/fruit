@@ -8,7 +8,7 @@ class OtpService {
   Future<bool> sendOtp(String phoneNumber) async {
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.1.9:4000/api/v1/sendotp'),
+        Uri.parse('https://deployment01.onrender.com/api/v1/sendotp'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'phoneNumber': phoneNumber}),
       );
@@ -35,7 +35,7 @@ class OtpService {
 
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.1.9:4000/api/v1/verifyotp'),
+        Uri.parse('https://deployment01.onrender.com/api/v1/verifyotp'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'phoneNumber': phoneNumber, 'otp': otp}),
       );
@@ -68,7 +68,7 @@ class OtpService {
 
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.1.9:4000/api/v1/signup'),
+        Uri.parse('https://deployment01.onrender.com/api/v1/signup'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'name': name,
